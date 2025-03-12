@@ -130,3 +130,34 @@ FROM node:14
 # docker build --build-arg VERSION=16 --build-arg PORT=8080 -t myapp .
 
 # -------------------------------------------------------------------------------------
+
+# 13- Networking
+
+# 1- Server running locally on the same machine [eg db server running locally]
+
+# use [host.docker.internal]
+# eg change mongodb://localhost:27017/swfavorites this to
+# mongodb://host.docker.internal:27017/swfavorites
+
+# 2- Communicating with another docker container
+
+#  Method-1 Find ip address
+# docker container inspect mongodb
+# And then use that ip address
+
+
+# Using Docker Networks
+
+# First of all create a network
+# docker network create <network_name>
+# docker network ls [for list of network]
+
+# The use 
+# --network <network_name> with run command while starting a container
+# eg 
+# docker run -d --name mongodb --network fav-net mongo
+# Then replace this "mongodb://172.17.0.2:27017/swfavorites" with
+# mongodb://mongodb:27017/swfavorites [use name of another container]
+
+
+# -------------------------------------------------------------------------------------
