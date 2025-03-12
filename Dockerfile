@@ -53,3 +53,80 @@ FROM node:14
 # Giving name and tag to a docker image
 # docker build -t name:tag .   [New Image]
 # docker tag image_id name:tag  [Existing Image]
+
+# -------------------------------------------------------------------------------------
+
+# 9-Two types of external data storage [Volumes]
+
+# See list of volumes
+# docker volume ls
+
+# 1- Volume [Manages by Docker]  ---  [AnonymousVolumes, NamedVolumes]
+
+# Named Volumes-- Great for data which is persistent and u need not to edit dierctly
+# docker run -v my_volume_name:/path/in/container your-image-name
+# To remove the name volume use [docker volume rm VOL_NAME]
+
+# AnonymousVolumes  [Data lost once container is stoped]
+# Volume["/app/feedback"]
+# These volumes are automatically removed when we use (--rm) to run a container
+# These volumes will remain if (--rm) is not used when container is stopped
+# If restarted new volume will remain
+# To remove the older volume use [docker volume rm VOL_NAME]
+
+# 2- BindMounts [Manages by you]
+# We define the path on the host machine
+# Great for persistent and editable data
+# docker run -v /path/on/host:/path/in/container your-image-name [-v $(pwd):/app]
+
+# docker run -d -p 3000:80 --rm 
+# -v feedback:/app/feedback 
+# -v "/Users/sarthak/Desktop/Docker/3-ManagingDataAndVolumes:/app" 
+# -v /app/node_modules  [To tell docker not to overwrite node_modules]
+# feedback-node:volume 
+
+# 3-
+# To make a volume read only [use keyword ro]
+# -v "/Users/sarthak/Desktop/Docker/3-ManagingDataAndVolumes:/app:ro" 
+
+# 4- To create a volume for a container
+# docker volume create name_of_volume
+
+# 5- To remove a volume
+# docker volume rm name_of_volume
+
+
+
+# -------------------------------------------------------------------------------------
+
+# 10- Docker Ignore
+# Prevents unnecessary files from being sent to the Docker daemon
+# Helps avoid accidentally including secrets or credentials
+# Prevents changes in irrelevant files from invalidating the build cache
+
+# -------------------------------------------------------------------------------------
+
+# 11-Using env variable
+
+# Mention like this in docker file
+# ENV PORT=80
+
+# We can also pass vaiable while run command
+# docker run -d -p 3000:8000 --rm --env PORT=8000
+# docker run -d -p 3000:8000 --rm --env-file ./.env
+
+# -------------------------------------------------------------------------------------
+
+# 12-Using args
+
+# We can make arguments for a docker file
+
+# ARG VERSION=latest
+# FROM node:${VERSION}
+
+# ARG PORT=3000
+# EXPOSE ${PORT}
+
+# docker build --build-arg VERSION=16 --build-arg PORT=8080 -t myapp .
+
+# -------------------------------------------------------------------------------------
